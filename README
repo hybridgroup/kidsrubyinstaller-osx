@@ -1,0 +1,14 @@
+KidsRuby Installer for OSX
+
+# OSX installer build
+QT
+- build qt 4.7.3 universal darwin libs for OSX. If using homebrew that means:
+  brew install qt --universal
+  
+- copy target files to installer resources dir
+  /usr/local/Cellar/qt/4.7.3
+
+qtbindings gem
+- build universal binary for OSX using qt 4.7.3 libs
+- copy .gem file to installer resources dir
+
