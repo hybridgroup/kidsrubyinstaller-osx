@@ -1,5 +1,11 @@
 KidsRuby Installer for OSX
 
+This installer is based on Platypus (http://www.sveinbjorn.org/platypus)
+
+Get all needed resources to build an installer by running install.sh
+
+The script installer.sh is what Platypus uses for the installation process on an end-user computer
+
 # OSX installer build
 QT
 - build qt 4.7.3 universal darwin libs for OSX. If using homebrew that means:
