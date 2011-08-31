@@ -1,35 +1,42 @@
 #!/bin/sh
 
-# determine OSX version
-TIGER=4
-LEOPARD=5
-SNOW_LEOPARD=6
-LION=7
-osx_version=$(sw_vers -productVersion | awk 'BEGIN {FS="."}{print $2}')
-if [ $osx_version -eq $LEOPARD -o $osx_version -eq $SNOW_LEOPARD -o $osx_version -eq $LION ]; then
-	echo Supported OS
-else
-	echo Unsupported OS
+# download/build needed resources
+echo "Make sure your download and install the Platypus installer from here: http://www.sveinbjorn.org/platypus"
+
+if [ ! -f "build" ]
+then
+	mkdir build
 fi
 
-# install qt libs
-hdiutil attach qt-mac-opensource-4.7.3.dmg
-/usr/sbin/installer -verbose -pkg "/Volumes/Qt 4.7.3/Qt.mpkg" -target /
-hdiutil detach "/Volumes/Qt 4.7.3"
+if [ ! -f "resources" ]
+then
+	mkdir resources
+fi
 
-# Install git
+if [ ! -f "resources/qt-mac-opensource-4.7.3.dmg" ]
+then
+	curl "http://get.qt.nokia.com/qt/source/qt-mac-opensource-4.7.3.dmg" > "resources/qt-mac-opensource-4.7.3.dmg"
+fi
 
-# Install ruby 1.9.2 universal binary
-
-# create kidsruby dir
-
-# get latest release kidsruby code from repo
-
-# create kidsruby gemset
-
-# install bundler
-
-# install gems, including the fat binary of qtbindings
-
-
-
+if [ ! -f "resources/ruby-1.9.2-p290.universal.tar.gz" ]
+then
+	if [ ! -f "build/ruby-1.9.2-p290.tar.gz" ]
+	then
+		curl "http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz" > "build/ruby-1.9.2-p290.tar.gz"
+	fi
+	cd build
+	if [ ! -f "ruby" ]
+	then
+		mkdir ruby
+	fi
+	cd ruby
+	rubydir="$(pwd)"
+	cd ..
+	tar -xvzf ruby-1.9.2-p290.tar.gz
+	cd ruby-1.9.2-p290
+	./configure --with-arch=x86_64,i386 --prefix="$rubydir"
+	make
+	make install
+	cd ../..
+	tar cvzf resources/ruby-1.9.2-p290.universal.tar.gz build/ruby
+fi
