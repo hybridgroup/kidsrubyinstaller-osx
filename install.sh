@@ -41,16 +41,13 @@ build_yaml() {
 	then
 		mkdir yaml
 	fi
-	cd yaml
-	yamldir="$(pwd)"
-	cd ..
 	tar -xvzf yaml-0.1.4.tar.gz
 	cd yaml-0.1.4
 	CFLAGS="-arch i386 -arch x86_64"
 	export CFLAGS
 	LDFLAGS="-arch i386 -arch x86_64"
 	export LDFLAGS
-	./configure --prefix="$yamldir" --disable-dependency-tracking
+	./configure --prefix="$builddir/yaml" --disable-dependency-tracking
 	make
 	make install
 	cd ../..
@@ -78,12 +75,9 @@ build_ruby() {
 	then
 		mkdir ruby
 	fi
-	cd ruby
-	rubydir="$(pwd)"
-	cd ..
 	tar -xvzf ruby-1.9.2-p290.tar.gz
 	cd ruby-1.9.2-p290
-	./configure --with-arch=x86_64,i386 --prefix="$rubydir" --with-libyaml-dir="$yamldir"
+	./configure --enable-shared --with-arch=x86_64,i386 --prefix="$builddir/ruby" --with-libyaml-dir="$builddir/yaml"
 	make
 	make install
 	cd ..
@@ -98,8 +92,13 @@ check_ruby() {
 	fi
 }
 
+rundir="$(pwd)"
+builddir="$rundir/build"
+
 create_dirs
 check_qt
 check_git
 check_yaml
 check_ruby
+
+echo "You still need to build the qtbindings gem manually, and put into resources directory."

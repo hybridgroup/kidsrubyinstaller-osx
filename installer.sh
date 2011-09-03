@@ -20,6 +20,11 @@ create_install_dir() {
 	then
 		mkdir "$INSTALLDIR"
 	fi
+	echo "Creating gems directory..."
+	if [ ! -d "$INSTALLDIR/gems" ]
+	then
+		mkdir "$INSTALLDIR/gems"
+	fi
 }
 
 install_qt() {
@@ -39,6 +44,7 @@ install_git() {
 install_ruby() {
 	echo "Installing Ruby 1.9.2..."
 	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$INSTALLDIR"
+	export PATH="$INSTALLDIR/ruby/bin:$PATH"
 	export PATH="$INSTALLDIR/ruby/bin:$PATH"
 }
 
