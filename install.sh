@@ -92,6 +92,24 @@ check_ruby() {
 	fi
 }
 
+get_kidsruby() {
+	/usr/local/bin/git clone --branch release git://github.com/hybridgroup/kidsruby.git
+}
+
+build_kidsruby() {
+	tar cvzf "../resources/kidsruby.tar.gz" kidsruby
+}
+
+check_kidsruby() {
+	if [ ! -f "resources/kidsruby.tar.gz" ]
+	then
+		cd build
+		get_kidsruby
+		build_kidsruby
+		cd ..
+	fi	
+}
+
 rundir="$(pwd)"
 builddir="$rundir/build"
 
@@ -100,5 +118,6 @@ check_qt
 check_git
 check_yaml
 check_ruby
+check_kidsruby
 
-echo "You still need to build the qtbindings gem manually, and put into resources directory."
+echo "You still need to build the qtbindings gem manually, and put into resources directory, before you can build the installer."

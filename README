@@ -6,15 +6,4 @@ Get all needed resources to build an installer by running install.sh
 
 The script installer.sh is what Platypus uses for the installation process on an end-user computer
 
-# OSX installer build
-QT
-- build qt 4.7.3 universal darwin libs for OSX. If using homebrew that means:
-  brew install qt --universal
-  
-- copy target files to installer resources dir
-  /usr/local/Cellar/qt/4.7.3
-
-qtbindings gem
-- build universal binary for OSX using qt 4.7.3 libs
-- copy .gem file to installer resources dir
-
+../appify.sh ../kidsruby.sh "KidsRuby"

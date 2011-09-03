@@ -45,13 +45,12 @@ install_ruby() {
 	echo "Installing Ruby 1.9.2..."
 	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$INSTALLDIR"
 	export PATH="$INSTALLDIR/ruby/bin:$PATH"
-	export PATH="$INSTALLDIR/ruby/bin:$PATH"
+	export GEM_HOME="$INSTALLDIR/ruby/gem:$GEM_HOME"
 }
 
 install_kidsruby() {
 	echo "Installing kidsruby editor..."
-	cd "$INSTALLDIR"
-	/usr/local/bin/git clone --branch release git://github.com/hybridgroup/kidsruby.git
+	tar -xvzf kidsruby.tar.gz -C "$INSTALLDIR"
 }
 
 install_bundler() {
@@ -64,13 +63,20 @@ install_qtbindings() {
 	gem install qtbindings-4.7.3-universal-darwin-10.gem
 }
 
-create_install_dir
-install_qt
-install_git
-# install libyaml here?
-install_ruby
-install_bundler
-install_qtbindings
+install_commands() {
+	echo "Installing commands..."
+	cp kidsruby.sh "$INSTALLDIR"
+	cp kidsirb.sh "$INSTALLDIR"
+}
+
+# create_install_dir
+# install_qt
+# install_git
+# # install libyaml here?
+# install_ruby
+# install_bundler
+# install_qtbindings
 install_kidsruby
+install_commands
 
 echo "KidsRuby installation complete. Have fun!"
