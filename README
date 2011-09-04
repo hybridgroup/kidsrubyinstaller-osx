@@ -1,9 +1,16 @@
 KidsRuby Installer for OSX
 
-This installer is based on Platypus (http://www.sveinbjorn.org/platypus)
+This installer is based on Platypus (http://www.sveinbjorn.org/platypus). To install the command line tool, do this:
+Download latest version and drop into /Applications, and then:
+  cd /Applications/Platypus.app/Contents/Resources
+  ./InstallCommandLineTool.sh
+Now the command line tool to build a stand-alone installer is ready.
 
-Get all needed resources to build an installer by running install.sh
+Get all other needed resources to build an installer by running install.sh
+
+To actually build a stand-alone installer, run build_installer.sh
 
 The script installer.sh is what Platypus uses for the installation process on an end-user computer
 
-../appify.sh ../kidsruby.sh "KidsRuby"
+The appify.sh is used to package the KidsRuby launcher into a standalone app file.
+
