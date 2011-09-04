@@ -63,19 +63,32 @@ install_qtbindings() {
 	gem install qtbindings-4.7.3-universal-darwin-10.gem
 }
 
+install_htmlentities() {
+	echo "Installing htmlentities..."
+	gem install htmlentities.gem
+}
+
+install_gosu() {
+	echo "Installing gosu..."
+	gem install gosu-0.7.36.2-universal-darwin.gem
+}
+
 install_commands() {
 	echo "Installing commands..."
-	cp kidsruby.sh "$INSTALLDIR"
+	cp KidsRuby.app "$INSTALLDIR"
+	#cp kidsrubyshell.sh "$INSTALLDIR"
 	cp kidsirb.sh "$INSTALLDIR"
 }
 
-# create_install_dir
-# install_qt
-# install_git
+create_install_dir
+install_qt
+install_git
 # # install libyaml here?
-# install_ruby
-# install_bundler
-# install_qtbindings
+install_ruby
+install_bundler
+install_qtbindings
+install_htmlentities
+install_gosu
 install_kidsruby
 install_commands
 
