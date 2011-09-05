@@ -1,5 +1,6 @@
 #!/bin/sh
 INSTALLDIR="/Applications/KidsRuby"
+CODEDIR="/usr/local/kidsruby"
 
 # determine OSX version
 TIGER=4
@@ -20,11 +21,12 @@ create_install_dir() {
 	then
 		mkdir "$INSTALLDIR"
 	fi
-	echo "Creating gems directory..."
-	if [ ! -d "$INSTALLDIR/gems" ]
+	echo "Creating code directory..."
+	if [ ! -d "$CODEDIR" ]
 	then
-		mkdir "$INSTALLDIR/gems"
+		mkdir "$CODEDIR"
 	fi
+	chmod -R a+rw "$CODEDIR"
 }
 
 install_qt() {
@@ -43,9 +45,9 @@ install_git() {
 
 install_ruby() {
 	echo "Installing Ruby 1.9.2..."
-	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$INSTALLDIR"
-	export PATH="$INSTALLDIR/ruby/bin:$PATH"
-	export GEM_HOME="$INSTALLDIR/ruby/gem:$GEM_HOME"
+	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$CODEDIR"
+	export PATH="$CODEDIR/ruby/bin:$PATH"
+	chmod -R a+r "$CODEDIR"
 }
 
 install_kidsruby() {
@@ -53,30 +55,9 @@ install_kidsruby() {
 	tar -xvzf kidsruby.tar.gz -C "$INSTALLDIR"
 }
 
-install_bundler() {
-	echo "Installing bundler..."
-	gem install bundler
-}
-
-install_qtbindings() {
-	echo "Installing qtbindings..."
-	gem install qtbindings-4.7.3-universal-darwin-10.gem
-}
-
-install_htmlentities() {
-	echo "Installing htmlentities..."
-	gem install htmlentities.gem
-}
-
-install_gosu() {
-	echo "Installing gosu..."
-	gem install gosu-0.7.36.2-universal-darwin.gem
-}
-
 install_commands() {
 	echo "Installing commands..."
-	cp KidsRuby.app "$INSTALLDIR"
-	#cp kidsrubyshell.sh "$INSTALLDIR"
+	tar -xvzf KidsRuby.app.tar.gz -C "$INSTALLDIR"
 	cp kidsirb.sh "$INSTALLDIR"
 }
 
@@ -85,10 +66,7 @@ install_qt
 install_git
 # # install libyaml here?
 install_ruby
-install_bundler
-install_qtbindings
-install_htmlentities
-install_gosu
+./install_gems.sh 2>&1
 install_kidsruby
 install_commands
 

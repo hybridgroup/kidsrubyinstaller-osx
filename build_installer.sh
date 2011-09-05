@@ -17,20 +17,21 @@ cleanup() {
 build_launcher() {
 	cd build
 	../appify.sh ../kidsruby.sh "KidsRuby"
+	tar cvzf "KidsRuby.app.tar.gz" KidsRuby.app
 	cd ..
-	mv build/KidsRuby.app resources
+	mv build/KidsRuby.app.tar.gz resources
 }
 
-copy_irb() {
+copy_scripts() {
+	cp install_gems.sh resources
 	cp kidsirb.sh resources
 }
 
 build_installer() {
-#	/usr/local/bin/platypus -AR  -l -i '/Applications/Platypus.app/Contents/Resources/PlatypusDefault.icns' -a 'KidsRuby Installer for OSX' -o 'Progress Bar' -p '/bin/sh' -u 'The Hybrid Group + Friends'  -V '0.6'  -I 'org.kidsruby.installer' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/git-1.7.6-i386-snow-leopard.dmg' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/ruby-1.9.2-p290.universal.tar.gz' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/yaml-0.1.4.universal.tar.gz' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/qt-mac-opensource-4.7.3.dmg' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/qtbindings-4.7.3-universal-darwin-10.gem' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/kidsruby.tar.gz' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/kidsirb.sh' -f '/Users/ron/Developer/kidsrubyinstaller-osx/resources/KidsRuby.app' -f "/Users/ron/Developer/kidsrubyinstaller-osx/resources/gosu-0.7.36.2-universal-darwin.gem" -g '#000000'  -b '#ffffff'  -c '/Users/ron/Developer/kidsrubyinstaller-osx/installer.sh' 'build/KidsRubyInstaller.app'
-	/usr/local/bin/platypus -AR  -l -i '/Applications/Platypus.app/Contents/Resources/PlatypusDefault.icns' -a 'KidsRuby Installer for OSX' -o 'Progress Bar' -p '/bin/sh' -u 'The Hybrid Group + Friends'  -V '0.6'  -I 'org.kidsruby.installer' -f 'resources/git-1.7.6-i386-snow-leopard.dmg' -f 'resources/ruby-1.9.2-p290.universal.tar.gz' -f 'resources/yaml-0.1.4.universal.tar.gz' -f 'resources/qt-mac-opensource-4.7.3.dmg' -f 'resources/qtbindings-4.7.3-universal-darwin-10.gem' -f 'resources/kidsruby.tar.gz' -f 'resources/kidsirb.sh' -f 'resources/KidsRuby.app' -f "resources/gosu-0.7.36.2-universal-darwin.gem" -g '#000000'  -b '#ffffff'  -c 'installer.sh' 'build/KidsRubyInstaller.app'
+	/usr/local/bin/platypus -AR  -l -i '/Applications/Platypus.app/Contents/Resources/PlatypusDefault.icns' -a 'KidsRuby Installer for OSX' -o 'Progress Bar' -p '/bin/sh' -u 'The Hybrid Group + Friends'  -V '0.6'  -I 'org.kidsruby.installer' -f 'resources/git-1.7.6-i386-snow-leopard.dmg' -f 'resources/ruby-1.9.2-p290.universal.tar.gz' -f 'resources/yaml-0.1.4.universal.tar.gz' -f 'resources/qt-mac-opensource-4.7.3.dmg' -f 'resources/qtbindings-4.7.3-universal-darwin-10.gem' -f 'resources/kidsruby.tar.gz' -f 'resources/kidsirb.sh' -f 'resources/KidsRuby.app.tar.gz' -f "resources/gosu-0.7.36.2-universal-darwin.gem" -f "resources/htmlentities-4.3.0.gem" -f "resources/install_gems.sh" -g '#000000'  -b '#ffffff'  -c 'installer.sh' 'build/KidsRubyInstaller.app'
 }
 
 cleanup
 build_launcher
-copy_irb
+copy_scripts
 build_installer

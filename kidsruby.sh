@@ -1,5 +1,3 @@
 #!/bin/sh
-export PATH=/Applications/KidsRuby/ruby/bin:$PATH
-export GEM_HOME=/Applications/KidsRuby/ruby/gem:$GEM_HOME
-
+export PATH=/usr/local/kidsruby/ruby/bin:$PATH
 ruby /Applications/KidsRuby/kidsruby/main.rb

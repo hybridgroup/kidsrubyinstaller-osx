@@ -1,4 +1,7 @@
 #!/bin/sh
+RUN_DIR="$(pwd)"
+BUILD_DIR="$RUN_DIR/build"
+RUBY_DIR="/usr/local/kidsruby"
 
 echo "Make sure your download and install the Platypus installer from here: http://www.sveinbjorn.org/platypus"
 
@@ -11,6 +14,16 @@ create_dirs() {
 	if [ ! -d "resources" ]
 	then
 		mkdir resources
+	fi
+
+	if [ ! -d "$RUBY_DIR" ]
+	then
+		mkdir "$RUBY_DIR"
+	fi
+
+	if [ ! -d "$RUBY_DIR/ruby" ]
+	then
+		mkdir "$RUBY_DIR/ruby"
 	fi
 }
 
@@ -47,7 +60,7 @@ build_yaml() {
 	export CFLAGS
 	LDFLAGS="-arch i386 -arch x86_64"
 	export LDFLAGS
-	./configure --prefix="$builddir/yaml" --disable-dependency-tracking
+	./configure --prefix="$BUILD_DIR/yaml" --disable-dependency-tracking
 	make
 	make install
 	cd ../..
@@ -70,18 +83,18 @@ get_ruby() {
 }
 
 build_ruby() {
-	cd build
-	if [ ! -d "ruby" ]
-	then
-		mkdir ruby
-	fi
+	cd "$BUILD_DIR"
 	tar -xvzf ruby-1.9.2-p290.tar.gz
 	cd ruby-1.9.2-p290
-	./configure --enable-shared --with-arch=x86_64,i386 --prefix="$builddir/ruby" --with-libyaml-dir="$builddir/yaml"
+	./configure --enable-shared --with-arch=x86_64,i386 --prefix="$RUBY_DIR/ruby"
 	make
 	make install
-	cd ..
-	tar cvzf "../resources/ruby-1.9.2-p290.universal.tar.gz" ruby
+}
+
+compress_ruby() {
+	cd "$RUBY_DIR"
+	tar cvzf "$RUN_DIR/resources/ruby-1.9.2-p290.universal.tar.gz" ruby
+	cd "$RUN_DIR"
 }
 
 check_ruby() {
@@ -89,6 +102,7 @@ check_ruby() {
 	then
 		get_ruby
 		build_ruby
+		compress_ruby
 	fi
 }
 
@@ -103,15 +117,12 @@ build_kidsruby() {
 check_kidsruby() {
 	if [ ! -f "resources/kidsruby.tar.gz" ]
 	then
-		cd build
+		cd "$BUILD_DIR"
 		get_kidsruby
 		build_kidsruby
 		cd ..
 	fi	
 }
-
-rundir="$(pwd)"
-builddir="$rundir/build"
 
 create_dirs
 check_qt
