@@ -27,6 +27,10 @@ create_install_dir() {
 		mkdir "$CODEDIR"
 	fi
 	chmod -R a+rw "$CODEDIR"
+	if [ ! -d "$CODEDIR/lib" ]
+	then
+		mkdir "$CODEDIR/lib"
+	fi
 }
 
 install_qt() {
@@ -50,6 +54,20 @@ install_ruby() {
 	chmod -R a+r "$CODEDIR"
 }
 
+symlink_qtbindings() {
+	export DYLD_LIBRARY_PATH=/usr/local/kidsruby/lib:$DYLD_LIBRARY_PATH
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtcore/libsmokeqtcore.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtgui/libsmokeqtgui.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtxml/libsmokeqtxml.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtopengl/libsmokeqtopengl.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsql/libsmokeqtsql.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtnetwork/libsmokeqtnetwork.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsvg/libsmokeqtsvg.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib /usr/local/kidsruby/lib
+	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib /usr/local/kidsruby/lib
+}
+
 install_kidsruby() {
 	echo "Installing kidsruby editor..."
 	tar -xvzf kidsruby.tar.gz -C "$INSTALLDIR"
@@ -67,6 +85,7 @@ install_git
 # # install libyaml here?
 install_ruby
 ./install_gems.sh 2>&1
+symlink_qtbindings
 install_kidsruby
 install_commands
 

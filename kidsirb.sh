@@ -1,7 +1,6 @@
 #!/bin/sh
 export PATH=/usr/local/kidsruby/ruby/bin:$PATH
-export GEM_HOME=/usr/local/kidsruby/gems:$GEM_HOME
-
+export DYLD_LIBRARY_PATH=/usr/local/kidsruby/lib:$DYLD_LIBRARY_PATH
 cd kidsruby
 irb
 cd ..
