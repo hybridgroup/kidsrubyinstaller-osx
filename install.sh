@@ -86,7 +86,10 @@ build_ruby() {
 	cd "$BUILD_DIR"
 	tar -xvzf ruby-1.9.2-p290.tar.gz
 	cd ruby-1.9.2-p290
-	./configure --enable-shared --with-arch=x86_64,i386 --prefix="$RUBY_DIR/ruby"
+	export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5"
+	export LDFLAGS=$CFLAGS
+	export MACOSX_DEPLOYMENT_TARGET=10.5
+	./configure --enable-shared --with-arch=i386,x86_64 --prefix="$RUBY_DIR/ruby"
 	make
 	make install
 }
