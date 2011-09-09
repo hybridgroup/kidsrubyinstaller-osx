@@ -17,6 +17,7 @@ cleanup() {
 build_launcher() {
 	cd build
 	../appify.sh ../kidsruby.sh "KidsRuby"
+	../assignIcon.py ../kidsrubylogo.png KidsRuby.app
 	tar cvzf "KidsRuby.app.tar.gz" KidsRuby.app
 	cd ..
 	mv build/KidsRuby.app.tar.gz resources
