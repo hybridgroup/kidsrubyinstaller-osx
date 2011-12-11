@@ -8,7 +8,8 @@ Now the command line tool to build a stand-alone installer is ready.
 
 Get all other needed resources to build an installer by running install.sh
 
-To actually build a stand-alone installer, run build_installer.sh
+To actually build a stand-alone installer, run substituting the real version number for VERSION:
+  build_installer.sh VERSION
 
 The script installer.sh is what Platypus uses for the installation process on an end-user computer
 
