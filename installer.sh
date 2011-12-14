@@ -84,7 +84,7 @@ install_qt
 install_git
 # # install libyaml here?
 install_ruby
-./install_gems.sh 2>&1
+./install_gems.sh ${CODEDIR} 2>&1
 symlink_qtbindings
 install_kidsruby
 install_commands
