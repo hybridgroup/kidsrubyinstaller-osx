@@ -117,6 +117,11 @@ build_kidsruby() {
 	tar cvzf "../resources/kidsruby.tar.gz" kidsruby
 }
 
+clean_kidsruby() {
+  rm -rf "$BUILD_DIR/kidsruby"
+  rm "resources/kidsruby.tar.gz"
+}
+
 check_kidsruby() {
 	if [ ! -f "resources/kidsruby.tar.gz" ]
 	then
@@ -132,6 +137,7 @@ check_qt
 check_git
 check_yaml
 check_ruby
+clean_kidsruby
 check_kidsruby
 
 echo "You still need to build the qtbindings gem manually, and put into resources directory, before you can build the installer."
