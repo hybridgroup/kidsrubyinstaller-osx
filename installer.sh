@@ -51,7 +51,7 @@ install_ruby() {
 	echo "Installing Ruby 1.9.2..."
 	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$CODEDIR"
 	export PATH="$CODEDIR/ruby/bin:$PATH"
-	chmod -R a+r "$CODEDIR"
+	chmod -R a+rw "$CODEDIR"
 }
 
 symlink_qtbindings() {
