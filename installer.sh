@@ -2,23 +2,30 @@
 INSTALLDIR="/Applications/KidsRuby"
 CODEDIR="/usr/local/kidsruby"
 
-# i18n
-SHORTLANG=$(defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3)
-KIDSRUBY_INSTALLER=$SHORTLANG".sh"
-source $KIDSRUBY_INSTALLER
+init_messages() {
+  SHORTLANG=$(defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3)
+  KIDSRUBY_INSTALLER=$SHORTLANG".sh"
+  if [ -f $KIDSRUBY_INSTALLER ]
+  then
+    source $KIDSRUBY_INSTALLER
+  else
+    source "en.sh"
+  fi
+}
 
-# determine OSX version
-TIGER=4
-LEOPARD=5
-SNOW_LEOPARD=6
-LION=7
-osx_version=$(sw_vers -productVersion | awk 'BEGIN {FS="."}{print $2}')
-if [ $osx_version -eq $LEOPARD -o $osx_version -eq $SNOW_LEOPARD -o $osx_version -eq $LION ]; then
-	echo $KIDSRUBY_START_INSTALL
-else
-	echo $KIDSRUBY_ERROR_NOT_SUPPORTED
-	exit
-fi
+check_osx_version() {
+  TIGER=4
+  LEOPARD=5
+  SNOW_LEOPARD=6
+  LION=7
+  osx_version=$(sw_vers -productVersion | awk 'BEGIN {FS="."}{print $2}')
+  if [ $osx_version -eq $LEOPARD -o $osx_version -eq $SNOW_LEOPARD -o $osx_version -eq $LION ]; then
+    echo $KIDSRUBY_START_INSTALL
+  else
+    echo $KIDSRUBY_ERROR_NOT_SUPPORTED
+    exit
+  fi
+}
 
 create_install_dir() {
 	echo $KIDSRUBY_CREATE_INSTALL_DIRECTORY
@@ -84,6 +91,8 @@ install_commands() {
 	cp kidsirb.sh "$INSTALLDIR"
 }
 
+init_messages
+check_osx_version
 create_install_dir
 install_qt
 install_git
