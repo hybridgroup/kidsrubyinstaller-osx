@@ -1,0 +1,15 @@
+export KIDSRUBY_START_INSTALL="Starting KidsRuby install..."
+export KIDSRUBY_CREATE_INSTALL_DIRECTORY="Creating installation directory..."
+export KIDSRUBY_CREATE_CODE_DIRECTORY="Creating code directory..."
+export KIDSRUBY_INSTALLING_QT="Installing Qt..."
+export KIDSRUBY_INSTALLING_GIT="Installing git..."
+export KIDSRUBY_INSTALLING_RUBY="Installing Ruby 1.9.2..."
+export KIDSRUBY_INSTALLING_EDITOR="Installing KidsRuby editor..."
+export KIDSRUBY_INSTALLING_COMMANDS="Installing commands..."
+export KIDSRUBY_END_INSTALL="KidsRuby installation complete. Have fun!"
+
+export KIDSRUBY_INSTALLING_GEMS="Installing gems..."
+export KIDSRUBY_INSTALLING_QTBINDINGS="Installing qtbindings gem..."
+export KIDSRUBY_INSTALLING_GOSU="Installing gosu gem.."
+
+export KIDSRUBY_ERROR_NOT_SUPPORTED="Sorry, KidsRuby is not currently supported on your operating system."
