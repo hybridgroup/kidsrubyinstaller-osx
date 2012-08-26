@@ -4,7 +4,7 @@ GEMPATH=$1/ruby/bin/gem
 install_gems() {
 	echo $KIDSRUBY_INSTALLING_GEMS
   ${GEMPATH} install htmlentities-4.3.0.gem 2>&1
-  ${GEMPATH} install rubywarrior-0.1.2.gem 2>&1
+  ${GEMPATH} install rubywarrior-i18n-0.0.3.gem 2>&1
 }
 
 install_qtbindings() {
