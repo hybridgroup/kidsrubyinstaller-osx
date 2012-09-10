@@ -48,11 +48,12 @@ create_install_dir() {
 	then
 		mkdir "$CODEDIR"
 	fi
-	chmod -R a+rw "$CODEDIR"
+	chmod -R a+r "$CODEDIR"
 	if [ ! -d "$CODEDIR/lib" ]
 	then
 		mkdir "$CODEDIR/lib"
 	fi
+	chmod -R a+w "$CODEDIR/lib"
 }
 
 install_qt() {
@@ -73,7 +74,8 @@ install_ruby() {
 	echo $KIDSRUBY_INSTALLING_RUBY
 	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$CODEDIR"
 	export PATH="$CODEDIR/ruby/bin:$PATH"
-	chmod -R a+rw "$CODEDIR"
+	chmod -R a+r "$CODEDIR"
+	chmod -R go-w "$CODEDIR"
 }
 
 symlink_qtbindings() {
