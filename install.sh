@@ -2,6 +2,7 @@
 RUN_DIR="$(pwd)"
 BUILD_DIR="$RUN_DIR/build"
 RUBY_DIR="/usr/local/kidsruby"
+export GEM_HOME=/usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1
 
 echo "Make sure your download and install the Platypus installer from here: http://www.sveinbjorn.org/platypus"
 
@@ -92,6 +93,12 @@ build_ruby() {
 	./configure --enable-shared --with-arch=i386,x86_64 --prefix="$RUBY_DIR/ruby"
 	make
 	make install
+}
+
+build_serialport() {
+	cd ~/Developer/ruby-serialport
+	/usr/local/kidsruby/ruby/lib/ruby/gems/gems/rake-0.9.2.2/bin/rake compile
+	/usr/local/kidsruby/ruby/lib/ruby/gems/gems/rake-0.9.2.2/bin/rake native gem
 }
 
 compress_ruby() {
