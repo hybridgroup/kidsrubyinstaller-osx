@@ -130,14 +130,14 @@ init_messages
 check_processor_architecture
 check_osx_version
 create_install_dir
+install_kidsruby
+install_commands
 install_qt
 install_git
 # # install libyaml here?
 install_ruby
 check_lib_dir
 symlink_qtbindings
-install_kidsruby
-install_commands
 install_gems
 install_qtbindings
 install_gosu
