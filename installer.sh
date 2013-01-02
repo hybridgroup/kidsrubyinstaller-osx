@@ -1,6 +1,8 @@
 #!/bin/sh
 INSTALLDIR="/Applications/KidsRuby"
-CODEDIR="/usr/local/kidsruby"
+CODEDIR="$INSTALLDIR/KidsRuby.app/core"
+GEM_BIN=$CODEDIR/ruby/bin/gem
+GEM_HOME=$CODEDIR/ruby/lib/ruby/gems/1.9.1
 
 init_messages() {
   SHORTLANG=$(defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3)
@@ -43,17 +45,6 @@ create_install_dir() {
 	then
 		mkdir "$INSTALLDIR"
 	fi
-	echo $KIDSRUBY_CREATE_CODE_DIRECTORY
-	if [ ! -d "$CODEDIR" ]
-	then
-		mkdir "$CODEDIR"
-	fi
-	chmod -R a+r "$CODEDIR"
-	if [ ! -d "$CODEDIR/lib" ]
-	then
-		mkdir "$CODEDIR/lib"
-	fi
-	chmod -R a+w "$CODEDIR/lib"
 }
 
 install_qt() {
@@ -79,17 +70,17 @@ install_ruby() {
 }
 
 symlink_qtbindings() {
-	export DYLD_LIBRARY_PATH=/usr/local/kidsruby/lib:$DYLD_LIBRARY_PATH
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtcore/libsmokeqtcore.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtgui/libsmokeqtgui.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtxml/libsmokeqtxml.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtopengl/libsmokeqtopengl.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsql/libsmokeqtsql.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtnetwork/libsmokeqtnetwork.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsvg/libsmokeqtsvg.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib /usr/local/kidsruby/lib
-	ln -s /usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib /usr/local/kidsruby/lib
+	export DYLD_LIBRARY_PATH=$CODEDIR:$DYLD_LIBRARY_PATH
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtcore/libsmokeqtcore.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtgui/libsmokeqtgui.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtxml/libsmokeqtxml.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtopengl/libsmokeqtopengl.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsql/libsmokeqtsql.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtnetwork/libsmokeqtnetwork.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsvg/libsmokeqtsvg.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib $CODEDIR/lib
 }
 
 install_kidsruby() {
@@ -103,8 +94,18 @@ install_commands() {
 	cp kidsirb.sh "$INSTALLDIR"
 }
 
-GEM_BIN=$CODEDIR/ruby/bin/gem
-export GEM_HOME=/usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1
+check_lib_dir() {
+	echo $KIDSRUBY_CREATE_CODE_DIRECTORY
+	if [ ! -d "$CODEDIR" ]
+	then
+		mkdir "$CODEDIR"
+	fi
+	if [ ! -d "$CODEDIR/lib" ]
+	then
+		mkdir "$CODEDIR/lib"
+	fi
+	chmod -R a+r "$CODEDIR"
+}
 
 install_gems() {
 	echo $KIDSRUBY_INSTALLING_GEMS
@@ -133,11 +134,12 @@ install_qt
 install_git
 # # install libyaml here?
 install_ruby
-install_gems
-install_qtbindings
-install_gosu
+check_lib_dir
 symlink_qtbindings
 install_kidsruby
 install_commands
+install_gems
+install_qtbindings
+install_gosu
 
 echo $KIDSRUBY_END_INSTALL
