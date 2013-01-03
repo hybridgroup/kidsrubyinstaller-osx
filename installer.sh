@@ -1,8 +1,9 @@
 #!/bin/sh
 INSTALLDIR="/Applications/KidsRuby"
-CODEDIR="$INSTALLDIR/KidsRuby.app/core"
+CODEDIR="/usr/local/kidsruby"
 RUBY_BIN=$CODEDIR/ruby/bin/ruby
 GEM_HOME=$CODEDIR/ruby/lib/ruby/gems/1.9.1
+RUBY_VERSION="1.9.2-p320"
 
 init_messages() {
   SHORTLANG=$(defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3)
@@ -63,7 +64,7 @@ install_git() {
 
 install_ruby() {
 	echo $KIDSRUBY_INSTALLING_RUBY
-	tar -xvzf ruby-1.9.2-p290.universal.tar.gz -C "$CODEDIR/"
+	tar -xvzf "ruby-$RUBY_VERSION.universal.tar.gz" -C "$CODEDIR/"
 	export PATH="$CODEDIR/ruby/bin:$PATH"
 	chmod -R a+r "$CODEDIR"
 	chmod -R go-w "$CODEDIR"
@@ -100,31 +101,13 @@ check_lib_dir() {
 	then
 		mkdir "$CODEDIR"
 	fi
+	chmod -R a+r "$CODEDIR"
 	if [ ! -d "$CODEDIR/lib" ]
 	then
 		mkdir "$CODEDIR/lib"
 	fi
-	chmod -R a+r "$CODEDIR"
+	chmod -R a+w "$CODEDIR/lib"
 }
-
-install_gems() {
-	echo $KIDSRUBY_INSTALLING_GEMS
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./htmlentities-4.3.0.gem").install' 2>&1
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./rubywarrior-i18n-0.0.3.gem").install' 2>&1
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./serialport-1.1.1-universal.x86_64-darwin-10.gem").install' 2>&1
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./hybridgroup-sphero-1.0.1.gem").install' 2>&1
-}
-
-install_qtbindings() {
-	echo $KIDSRUBY_INSTALLING_QTBINDINGS
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./qtbindings-4.7.3-universal-darwin-10.gem").install' 2>&1
-}
-
-install_gosu() {
-	echo $KIDSRUBY_INSTALLING_GOSU
-  ${RUBY_BIN} -r 'rubygems/installer' -e '$SAFE=0; Gem::Installer.new("./gosu-0.7.36.2-universal-darwin.gem").install' 2>&1
-}
-
 
 init_messages
 check_processor_architecture
@@ -137,11 +120,9 @@ install_commands
 install_qt
 install_git
 # # install libyaml here?
-install_ruby
+
 check_lib_dir
+install_ruby
 symlink_qtbindings
-install_gems
-install_qtbindings
-install_gosu
 
 echo $KIDSRUBY_END_INSTALL

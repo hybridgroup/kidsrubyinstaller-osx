@@ -2,9 +2,14 @@
 RUN_DIR="$(pwd)"
 BUILD_DIR="$RUN_DIR/build"
 RUBY_DIR="/usr/local/kidsruby"
-export GEM_HOME=/usr/local/kidsruby/ruby/lib/ruby/gems/1.9.1
+RUBY_VERSION="1.9.2-p320"
 
-echo "Make sure your download and install the Platypus installer from here: http://www.sveinbjorn.org/platypus"
+export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+export "GEM_PATH=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+
+echo "Make sure you download and install the Platypus installer from here: http://www.sveinbjorn.org/platypus"
+echo "Make sure you clone the hybridgroup qtbindings gem into ~/Developer/qtbindings"
+echo "Make sure you clone the hybridgroup serialport gem into ~/Developer/serialport"
 
 create_dirs() {
   if [ ! -d "build" ]
@@ -61,7 +66,7 @@ build_yaml() {
 	export CFLAGS
 	LDFLAGS="-arch i386 -arch x86_64"
 	export LDFLAGS
-	./configure --prefix="$BUILD_DIR/yaml" --disable-dependency-tracking
+	./configure --enable-load-relative --prefix="$BUILD_DIR/yaml" --disable-dependency-tracking
 	make
 	make install
 	cd ../..
@@ -77,43 +82,90 @@ check_yaml() {
 }
 
 get_ruby() {
-	if [ ! -f "build/ruby-1.9.2-p290.tar.gz" ]
+	if [ ! -f "build/ruby-$RUBY_VERSION.tar.gz" ]
 	then
-		curl "http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz" > "build/ruby-1.9.2-p290.tar.gz"
+		curl "http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-$RUBY_VERSION.tar.gz" > "build/ruby-$RUBY_VERSION.tar.gz"
 	fi
 }
 
 build_ruby() {
+	echo "Building Ruby $RUBY_VERSION..."
 	cd "$BUILD_DIR"
-	tar -xvzf ruby-1.9.2-p290.tar.gz
-	cd ruby-1.9.2-p290
-	export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5"
+	tar -xvzf ruby-$RUBY_VERSION.tar.gz
+	cd "ruby-$RUBY_VERSION"
+	export CFLAGS="-L /usr/lib -I /usr/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5"
 	export LDFLAGS=$CFLAGS
 	export MACOSX_DEPLOYMENT_TARGET=10.5
-	./configure --enable-shared --with-arch=i386,x86_64 --prefix="$RUBY_DIR/ruby"
+	./configure --enable-load-relative --enable-shared --with-arch=i386,x86_64 --prefix="$RUBY_DIR/ruby"
 	make
 	make install
 }
 
 build_serialport() {
+	echo "Building serialport gem..."
+	export "PATH=$RUBY_DIR/ruby/bin:$PATH"
+	export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+	export "GEM_PATH=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
 	cd ~/Developer/ruby-serialport
-	/usr/local/kidsruby/ruby/lib/ruby/gems/gems/rake-0.9.2.2/bin/rake compile
-	/usr/local/kidsruby/ruby/lib/ruby/gems/gems/rake-0.9.2.2/bin/rake native gem
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" compile
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" native gem
+	cp pkg/serialport-1.1.1-universal.x86_64-darwin-10.gem "$RUN_DIR/resources/serialport-1.1.1-universal.x86_64-darwin-10.gem"
+	cd "$RUN_DIR"
+}
+
+build_qtbindings() {
+	echo "Building qtbindings gem..."
+	export "PATH=$RUBY_DIR/ruby/bin:$PATH"
+	export VERSION=4.7.3
+	cd ~/Developer/qtbindings
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" gemosx
+	cp qtbindings-4.7.3-universal-darwin-10.gem "$RUN_DIR/resources/qtbindings-4.7.3-universal-darwin-10.gem"
+	cd "$RUN_DIR"
 }
 
 compress_ruby() {
 	cd "$RUBY_DIR"
-	tar cvzf "$RUN_DIR/resources/ruby-1.9.2-p290.universal.tar.gz" ruby
+	tar cvzf "$RUN_DIR/resources/ruby-$RUBY_VERSION.universal.tar.gz" ruby
 	cd "$RUN_DIR"
 }
 
 check_ruby() {
-	if [ ! -f "resources/ruby-1.9.2-p290.universal.tar.gz" ]
+	if [ ! -f "resources/ruby-$RUBY_VERSION.universal.tar.gz" ]
 	then
 		get_ruby
 		build_ruby
+		
+		update_rubygems
+		update_rake
+		
+		install_rake_compiler
+		build_qtbindings
+		install_qtbindings
+		build_serialport
+		install_serialport
+
+		install_gosu
+		install_other_gems
+
 		compress_ruby
 	fi
+}
+
+update_rubygems() {
+	export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" update --system
+}
+
+update_rake() {
+	export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install rake -v 0.9.2.2 --no-ri --no-rdoc
+}
+
+install_rake_compiler() {
+	export "PATH=$RUBY_DIR/ruby/bin:$PATH"
+	export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install rake-compiler --no-ri --no-rdoc
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install jeweler --no-ri --no-rdoc
 }
 
 get_kidsruby() {
@@ -139,12 +191,33 @@ check_kidsruby() {
 	fi	
 }
 
+install_qtbindings() {
+	echo "Installing qtbindings..."
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/qtbindings-4.7.3-universal-darwin-10.gem" --no-ri --no-rdoc
+}
+
+install_serialport() {
+	echo "Installing serialport..."
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/serialport-1.1.1-universal.x86_64-darwin-10.gem" --no-ri --no-rdoc
+}
+
+install_gosu() {
+	echo "Installing gosu..."
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/gosu-0.7.36.2-universal-darwin.gem" --no-ri --no-rdoc
+}
+
+install_other_gems() {
+	echo "Installing other gems..."
+  "$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install htmlentities --no-ri --no-rdoc
+  "$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install rubywarrior-i18n --no-ri --no-rdoc
+  "$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install hybridgroup-sphero --no-ri --no-rdoc
+}
+
 create_dirs
 check_qt
 check_git
 check_yaml
 check_ruby
+
 clean_kidsruby
 check_kidsruby
-
-echo "You still need to build the qtbindings gem manually, and put into resources directory, before you can build the installer."
