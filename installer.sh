@@ -82,6 +82,7 @@ symlink_qtbindings() {
 	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib $CODEDIR/lib
 	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib $CODEDIR/lib
 	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtdbus/libsmokeqtdbus.3.dylib $CODEDIR/lib
 }
 
 install_kidsruby() {
