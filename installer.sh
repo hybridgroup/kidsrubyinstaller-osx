@@ -4,6 +4,7 @@ CODEDIR="/usr/local/kidsruby"
 RUBY_BIN=$CODEDIR/ruby/bin/ruby
 GEM_HOME=$CODEDIR/ruby/lib/ruby/gems/1.9.1
 RUBY_VERSION="1.9.2-p320"
+QT_VERSION="4.7.3"
 
 init_messages() {
   SHORTLANG=$(defaults read .GlobalPreferences AppleLanguages | tr -d [:space:] | cut -c2-3)
@@ -51,7 +52,7 @@ create_install_dir() {
 install_qt() {
 	echo $KIDSRUBY_INSTALLING_QT
 	hdiutil attach qt-mac-opensource-4.7.3.dmg
-	/usr/sbin/installer -verbose -pkg "/Volumes/Qt 4.7.3/Qt.mpkg" -target /
+	/usr/sbin/installer -verbose -pkg "/Volumes/Qt $QT_VERSION/Qt.mpkg" -target /
 	hdiutil detach "/Volumes/Qt 4.7.3"
 }
 
@@ -72,17 +73,17 @@ install_ruby() {
 
 symlink_qtbindings() {
 	export DYLD_LIBRARY_PATH=$CODEDIR:$DYLD_LIBRARY_PATH
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtcore/libsmokeqtcore.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtgui/libsmokeqtgui.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtxml/libsmokeqtxml.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtopengl/libsmokeqtopengl.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsql/libsmokeqtsql.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtnetwork/libsmokeqtnetwork.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtsvg/libsmokeqtsvg.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib $CODEDIR/lib
-	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-4.7.3-universal-darwin-10/ext/build/smoke/qtdbus/libsmokeqtdbus.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtcore/libsmokeqtcore.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtgui/libsmokeqtgui.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtxml/libsmokeqtxml.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtopengl/libsmokeqtopengl.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtsql/libsmokeqtsql.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtnetwork/libsmokeqtnetwork.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtsvg/libsmokeqtsvg.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/ruby/qtruby/src/libqtruby4shared.2.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/smokebase/libsmokebase.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtwebkit/libsmokeqtwebkit.3.dylib $CODEDIR/lib
+	ln -s $CODEDIR/ruby/lib/ruby/gems/1.9.1/gems/qtbindings-$QT_VERSION-universal-darwin-10/ext/build/smoke/qtdbus/libsmokeqtdbus.3.dylib $CODEDIR/lib
 }
 
 install_kidsruby() {

@@ -3,6 +3,8 @@ RUN_DIR="$(pwd)"
 BUILD_DIR="$RUN_DIR/build"
 RUBY_DIR="/usr/local/kidsruby"
 RUBY_VERSION="1.9.2-p320"
+SERIALPORT_VERSION="1.2.0"
+QT_VERSION="4.7.3"
 
 export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
 export "GEM_PATH=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
@@ -34,9 +36,9 @@ create_dirs() {
 }
 
 check_qt() {
-	if [ ! -f "resources/qt-mac-opensource-4.7.3.dmg" ]
+	if [ ! -f "resources/qt-mac-opensource-$QT_VERSION.dmg" ]
 	then
-		curl "http://get.qt.nokia.com/qt/source/qt-mac-opensource-4.7.3.dmg" > "resources/qt-mac-opensource-4.7.3.dmg"
+		curl "http://get.qt.nokia.com/qt/source/qt-mac-opensource-$QT_VERSION.dmg" > "resources/qt-mac-opensource-$QT_VERSION.dmg"
 	fi
 }
 
@@ -93,6 +95,8 @@ build_ruby() {
 	cd "$BUILD_DIR"
 	tar -xvzf ruby-$RUBY_VERSION.tar.gz
 	cd "ruby-$RUBY_VERSION"
+	export C_INCLUDE_PATH=/usr/include:$C_INCLUDE_PATH
+	export LIBRARY_PATH=/usr/lib:LIBRARY_PATH
 	export CFLAGS="-L /usr/lib -I /usr/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5"
 	export LDFLAGS=$CFLAGS
 	export MACOSX_DEPLOYMENT_TARGET=10.5
@@ -109,17 +113,17 @@ build_serialport() {
 	cd ~/Developer/ruby-serialport
 	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" compile
 	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" native gem
-	cp pkg/serialport-1.1.1-universal.x86_64-darwin-10.gem "$RUN_DIR/resources/serialport-1.1.1-universal.x86_64-darwin-10.gem"
+	cp pkg/hybridgroup-serialport-$SERIALPORT_VERSION-universal.x86_64-darwin-10.gem "$RUN_DIR/resources/hybridgroup-serialport-$SERIALPORT_VERSION-universal.x86_64-darwin-10.gem"
 	cd "$RUN_DIR"
 }
 
 build_qtbindings() {
 	echo "Building qtbindings gem..."
 	export "PATH=$RUBY_DIR/ruby/bin:$PATH"
-	export VERSION=4.7.3
+	export VERSION=$QT_VERSION
 	cd ~/Developer/qtbindings
 	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/rake" gemosx
-	cp qtbindings-4.7.3-universal-darwin-10.gem "$RUN_DIR/resources/qtbindings-4.7.3-universal-darwin-10.gem"
+	cp qtbindings-$QT_VERSION-universal-darwin-10.gem "$RUN_DIR/resources/qtbindings-$QT_VERSION-universal-darwin-10.gem"
 	cd "$RUN_DIR"
 }
 
@@ -193,12 +197,12 @@ check_kidsruby() {
 
 install_qtbindings() {
 	echo "Installing qtbindings..."
-	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/qtbindings-4.7.3-universal-darwin-10.gem" --no-ri --no-rdoc
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/qtbindings-$QT_VERSION-universal-darwin-10.gem" --no-ri --no-rdoc
 }
 
 install_serialport() {
 	echo "Installing serialport..."
-	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/serialport-1.1.1-universal.x86_64-darwin-10.gem" --no-ri --no-rdoc
+	"$RUBY_DIR/ruby/bin/ruby" "$RUBY_DIR/ruby/bin/gem" install "$RUN_DIR/resources/hybridgroup-serialport-$SERIALPORT_VERSION-universal.x86_64-darwin-10.gem" --no-ri --no-rdoc
 }
 
 install_gosu() {
