@@ -3,7 +3,7 @@ RUN_DIR="$(pwd)"
 BUILD_DIR="$RUN_DIR/build"
 RUBY_DIR="/usr/local/kidsruby"
 RUBY_VERSION="1.9.2-p320"
-SERIALPORT_VERSION="1.2.0"
+SERIALPORT_VERSION="1.2.1"
 QT_VERSION="4.7.3"
 
 export "GEM_HOME=$RUBY_DIR/ruby/lib/ruby/gems/1.9.1"
