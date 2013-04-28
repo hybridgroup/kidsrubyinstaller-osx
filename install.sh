@@ -173,7 +173,7 @@ install_rake_compiler() {
 }
 
 get_kidsruby() {
-	/usr/local/bin/git clone --branch release git://github.com/hybridgroup/kidsruby.git
+	git clone --branch release git://github.com/hybridgroup/kidsruby.git
 }
 
 build_kidsruby() {
