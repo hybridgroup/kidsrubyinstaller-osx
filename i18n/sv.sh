@@ -1,0 +1,15 @@
+export KIDSRUBY_START_INSTALL="Startar KidsRuby installationen..."
+export KIDSRUBY_CREATE_INSTALL_DIRECTORY="Skapar installationskatalogen..."
+export KIDSRUBY_CREATE_CODE_DIRECTORY="Skapar källkodskatalogen..."
+export KIDSRUBY_INSTALLING_QT="Installerar Qt..."
+export KIDSRUBY_INSTALLING_GIT="Installerar git..."
+export KIDSRUBY_INSTALLING_RUBY="Installerar Ruby 1.9.2..."
+export KIDSRUBY_INSTALLING_EDITOR="Installerar KidsRuby-editor..."
+export KIDSRUBY_INSTALLING_COMMANDS="Installerar systemkommandon..."
+export KIDSRUBY_END_INSTALL="Installationen av KidsRuby är slutförd. Ha kul!"
+
+export KIDSRUBY_INSTALLING_GEMS="Installerar gems..."
+export KIDSRUBY_INSTALLING_QTBINDINGS="Installerar qtbindings gem..."
+export KIDSRUBY_INSTALLING_GOSU="Installerar gosu gem.."
+
+export KIDSRUBY_ERROR_NOT_SUPPORTED="Tyvärr, KidsRuby stöjer för tillfället inte ditt operativsystem."
