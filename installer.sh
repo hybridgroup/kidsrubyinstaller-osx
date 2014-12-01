@@ -24,7 +24,7 @@ check_osx_version() {
   LION=7
   MOUNTAIN_LION=8
   osx_version=$(sw_vers -productVersion | awk 'BEGIN {FS="."}{print $2}')
-  if [ $osx_version -eq $LEOPARD -o $osx_version -eq $SNOW_LEOPARD -o $osx_version -eq $LION -o $osx_version -eq $MOUNTAIN_LION ]; then
+  if [ $osx_version -ge $LEOPARD ]; then
     echo $KIDSRUBY_START_INSTALL
   else
     echo $KIDSRUBY_ERROR_NOT_SUPPORTED
