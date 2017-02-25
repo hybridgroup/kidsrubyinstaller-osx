@@ -1,0 +1,15 @@
+export KIDSRUBY_START_INSTALL="KidsRuby மென்பொருள் நிறுவல் தொடங்குகிறது..."
+export KIDSRUBY_CREATE_INSTALL_DIRECTORY="நிறுவும் அடைவை உருவாக்கப்படுகிறது..."
+export KIDSRUBY_CREATE_CODE_DIRECTORY="நிரல் சேமிக்க அடைவை உருவாக்கப்படுகிறது..."
+export KIDSRUBY_INSTALLING_QT="Qt நிறுவல்..."
+export KIDSRUBY_INSTALLING_GIT="git நிறுவல்..."
+export KIDSRUBY_INSTALLING_RUBY="Ruby 1.9.2 நிறுவல்..."
+export KIDSRUBY_INSTALLING_EDITOR="KidsRuby திருத்தி நிறுவல்..."
+export KIDSRUBY_INSTALLING_COMMANDS="commands நிறுவல்..."
+export KIDSRUBY_END_INSTALL="KidsRuby நிறுவல் வெற்றிகரமாக முடிந்தது. இனிமையாக இதனை இனி பயன்படுத்துங்கள்!"
+
+export KIDSRUBY_INSTALLING_GEMS="gems நிறுவல்..."
+export KIDSRUBY_INSTALLING_QTBINDINGS="qtbindings gem நிறுவல்..."
+export KIDSRUBY_INSTALLING_GOSU="gosu gem நிறுவல்.."
+
+export KIDSRUBY_ERROR_NOT_SUPPORTED="KidsRuby நிறுவல் உங்கள் இயங்கு தளத்தில் தற்சமயம் உபயோவிக்க முடியாது; முடியாமைக்கு மன்னிக்கவும்."
