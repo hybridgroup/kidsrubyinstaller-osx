@@ -8,7 +8,7 @@ Now the command line tool to build a stand-alone installer is ready.
 
 Get all other needed resources to build an installer by running install.sh
 
-Also, run install.sh each time you eant to do a build, to get the latest version of KidsRuby editor from the 'release' branch
+Also, run install.sh each time you want to do a build, to get the latest version of KidsRuby editor from the 'release' branch
 
 To actually build a stand-alone installer, run substituting the real version number for VERSION:
   build_installer.sh VERSION
